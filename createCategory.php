@@ -44,5 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" id="nombre_categoria" name="nombre_categoria" required>
         <button type="submit">Crear Categoría</button>
     </form>
+    <?php include 'components/mainMenuButton.php'; ?>
 </body>
 </html>

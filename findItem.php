@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscar Artículos</title>
+    <link rel="stylesheet" href="style/findItem.css"> 
 </head>
 <body>
+<?php include 'components/navbar.php'; ?>
     <h1>Buscar Artículos</h1>
     <form method="POST" action="findItem.php">
         <label for="palabra">Palabra clave:</label>
@@ -67,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 }
 ?>
+            <?php include 'components/mainMenuButton.php'; ?>
 
 <script>
 function updateItem(id_articulo) {
