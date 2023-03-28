@@ -30,12 +30,34 @@ if (!check_database($servername, $db_username, $db_password, $dbname)) {
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-// Validar los valores del formulario
-if ($username == "usuario" && $password == "contraseña") {
-// Iniciar sesión exitosamente
-echo "Bienvenido, " . $username . "!";
-} else {
-// Mostrar mensaje de error
-echo "Nombre de usuario o contraseña incorrectos.";
+// Crear conexión
+$conn = new mysqli($servername, $db_username, $db_password, $dbname);
+
+// Verificar conexión
+if ($conn->connect_error)
+{
+    die("Error de conexión: " . $conn->connect_error);
 }
+    
+// Consultar la tabla 'Usuario' para verificar si el usuario y la contraseña coinciden
+$sql = "SELECT * FROM Usuario WHERE nombre_usuario = ? AND contraseña_usuario = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ss", $username, $password);
+$stmt->execute();
+$result = $stmt->get_result();
+    
+if ($result->num_rows > 0) {
+    // Iniciar sesión exitosamente
+    echo "Bienvenido, " . $username . "!";
+} else {
+    // Mostrar mensaje de error
+    echo "Nombre de usuario o contraseña incorrectos.";
+    // Redirigir a la página de registro 'signup.html'
+    header("Location: signup.html");
+    exit();
+}
+    
+// Cerrar la declaración y la conexión
+$stmt->close();
+$conn->close();
 ?>
