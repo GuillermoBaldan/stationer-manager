@@ -30,6 +30,17 @@ $stmt->bind_param("sss", $user, $email, $password_hash);
 
 if ($stmt->execute()) {
     echo "Usuario registrado exitosamente.";
+    
+    // Guardar usuario en el archivo usuarios.txt
+    $usuarios_txt = "System-files/usuarios.txt";
+    $usuario_info = $user . " - " . $email . PHP_EOL;
+    
+    if (file_put_contents($usuarios_txt, $usuario_info, FILE_APPEND)) {
+        echo "Usuario guardado en usuarios.txt.";
+    } else {
+        echo "Error al guardar usuario en usuarios.txt.";
+    }
+    
     header("Location: mainmenu.php");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
