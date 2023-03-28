@@ -62,8 +62,8 @@ if (!isset($_SESSION['username'])) {
     <?php include 'components/navbar.php'; ?>
     <h1>Menú</h1>
     <div class="menu">
-        <button onclick="location.href='signup.html'">Crear Usuario</button>
-        <button onclick="location.href='createItem.html'">Crear Artículo</button>
+        <button onclick="location.href='signup.php'">Crear Usuario</button>
+        <button onclick="location.href='createItem.php'">Crear Artículo</button>
         <button onclick="location.href='findItem.php'">Buscar Artículo</button>
         <button onclick="location.href='createCategory.php'">Crear Categoría</button>
         <button onclick="location.href='findCategory.html'">Buscar Categoría</button>
