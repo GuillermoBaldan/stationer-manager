@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Artículo</title>
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var id_articulo = getParameterByName('id_articulo');
+            if (id_articulo) {
+                document.getElementById('id_articulo').value = id_articulo;
+                // Aquí puedes cargar los datos del artículo actual desde la base de datos
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- El resto del contenido del archivo HTML se mantiene igual -->
+</body>
+</html>
