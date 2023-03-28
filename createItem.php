@@ -7,7 +7,23 @@ $nombre_articulo = $_POST['nombre'];
 $descripcion_articulo = $_POST['descripcion'];
 $precio_articulo = $_POST['precio_unitario'];
 $stock_articulo = $_POST['numero_unidades'];
-$id_categoria = $_POST['categoria'];
+$nombre_categoria = $_POST['categoria'];
+
+// Buscar el id_categoria correspondiente al nombre de la categoría
+$sql = "SELECT id_categoria FROM Categoria WHERE nombre_categoria = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $nombre_categoria);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $id_categoria = $row['id_categoria'];
+} else {
+    echo "Categoría no encontrada.";
+    exit();
+}
+$stmt->close();
 
 // Procesar la imagen
 $imagen = $_FILES['imagen'];

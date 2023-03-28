@@ -3,33 +3,57 @@
 require 'db_config.php';
 
 // Obtener datos del formulario
-$search_term = $_POST['search_term'];
+$palabra_busqueda = $_POST['palabra'];
 
-// Consultar la tabla 'Articulo' para buscar artículos con la palabra clave
+// Consultar la tabla 'Articulo' para buscar artículos por nombre
 $sql = "SELECT * FROM Articulo WHERE nombre_articulo LIKE ?";
 $stmt = $conn->prepare($sql);
-
-// Verificar si la preparación de la sentencia fue exitosa
-if ($stmt === false) {
-    die("Error en la preparación de la sentencia SQL: " . $conn->error);
-}
-
-$search_term = '%' . $search_term . '%';
-$stmt->bind_param("s", $search_term);
+$search_param = "%" . $palabra_busqueda . "%";
+$stmt->bind_param("s", $search_param);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Mostrar resultados de la búsqueda
-if ($result->num_rows > 0) {
-    echo "<h2>Resultados de la búsqueda:</h2>";
-    while ($row = $result->fetch_assoc()) {
-        echo "ID: " . $row["id_articulo"] . " - Nombre: " . $row["nombre_articulo"] . " - Descripción: " . $row["descripcion_articulo"] . "<br>";
-    }
-} else {
-    echo "No se encontraron artículos con la palabra clave ingresada.";
+// Generar tabla HTML con los resultados
+echo "<table id='resultTable' border='1'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio Unitario</th>
+                <th>Número de unidades</th>
+                <th>Categoría</th>
+            </tr>
+        </thead>
+        <tbody>";
+
+while ($row = $result->fetch_assoc()) {
+    echo "<tr data-id='" . $row['id_articulo'] . "'>
+            <td>" . $row['id_articulo'] . "</td>
+            <td>" . $row['nombre_articulo'] . "</td>
+            <td>" . $row['descripcion_articulo'] . "</td>
+            <td>" . $row['precio_articulo'] . "</td>
+            <td>" . $row['stock_articulo'] . "</td>
+            <td>" . $row['id_categoria'] . "</td>
+          </tr>";
 }
 
-// Cerrar la declaración y la conexión
+echo "</tbody></table>";
+
 $stmt->close();
 $conn->close();
 ?>
+
+<script>
+// Añadir controlador de eventos para detectar clics en las filas de la tabla
+document.getElementById('resultTable').addEventListener('click', function(event) {
+    var target = event.target;
+    while (target && target.nodeName !== 'TR') {
+        target = target.parentNode;
+    }
+    if (target) {
+        var id_articulo = target.getAttribute('data-id');
+        window.location.href = 'updateItem.html?id_articulo=' + id_articulo;
+    }
+});
+</script>

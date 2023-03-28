@@ -24,7 +24,7 @@ $conn->select_db($dbname);
 
 // Crear tabla Categoria si no existe
 $sql = "CREATE TABLE IF NOT EXISTS Categoria (
-  id_categoria INT PRIMARY KEY,
+  id_categoria INT AUTO_INCREMENT PRIMARY KEY,
   nombre_categoria VARCHAR(50)
 );";
 if ($conn->query($sql) === TRUE) {
@@ -35,7 +35,7 @@ if ($conn->query($sql) === TRUE) {
 
 // Crear tabla Articulo si no existe
 $sql = "CREATE TABLE IF NOT EXISTS Articulo (
-id_articulo INT PRIMARY KEY,
+id_articulo INT AUTO_INCREMENT PRIMARY KEY,
 nombre_articulo VARCHAR(50),
 descripcion_articulo VARCHAR(255),
 precio_articulo DECIMAL(10,2),
