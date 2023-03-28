@@ -15,16 +15,56 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        document.addEventListener("DOMContentLoaded", function(event) {
+        function loadArticleDetails() {
             var id_articulo = getParameterByName('id_articulo');
             if (id_articulo) {
-                document.getElementById('id_articulo').value = id_articulo;
-                // Aquí puedes cargar los datos del artículo actual desde la base de datos
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'loadItem.php?id_articulo=' + id_articulo, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var article = JSON.parse(xhr.responseText);
+                        document.getElementById('id_articulo').value = article.id_articulo;
+                        document.getElementById('nombre').value = article.nombre_articulo;
+                        document.getElementById('descripcion').value = article.descripcion_articulo;
+                        document.getElementById('precio_unitario').value = article.precio_articulo;
+                        document.getElementById('numero_unidades').value = article.stock_articulo;
+                        document.getElementById('categoria').value = article.id_categoria;
+                    }
+                };
+                xhr.send();
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadArticleDetails();
         });
     </script>
 </head>
 <body>
-    <!-- El resto del contenido del archivo HTML se mantiene igual -->
+    <h1>Actualizar Artículo</h1>
+    <form method="POST" action="updateItem.php" enctype="multipart/form-data">
+        <input type="hidden" id="id_articulo" name="id_articulo">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+    
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required>
+        
+        <label for="imagen">Imagen:</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*">
+        
+        <label for="precio_unitario">Precio unitario:</label>
+        <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" required>
+        
+        <label for="numero_unidades">Número de unidades:</label>
+        <input type="number" id="numero_unidades" name="numero_unidades" required>
+        
+        <label for="categoria">Categoría:</label>
+        <input type="number" id="categoria" name="categoria" required>
+        
+        <button type="submit">Actualizar</button>
+    </form>
+    
 </body>
 </html>
