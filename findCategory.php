@@ -19,6 +19,7 @@ echo "<table id='resultTable' border='1'>
             <tr>
                 <th>ID</th>
                 <th>Nombre de categoría</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>";
@@ -27,6 +28,10 @@ while ($row = $result->fetch_assoc()) {
     echo "<tr data-id='" . $row['id_categoria'] . "'>
             <td>" . $row['id_categoria'] . "</td>
             <td>" . $row['nombre_categoria'] . "</td>
+            <td>
+                <button onclick='updateCategory(" . $row['id_categoria'] . ")'>Actualizar</button>
+                <button onclick='deleteCategory(" . $row['id_categoria'] . ")'>Eliminar</button>
+            </td>
           </tr>";
 }
 
@@ -37,15 +42,13 @@ $conn->close();
 ?>
 
 <script>
-// Añadir controlador de eventos para detectar clics en las filas de la tabla
-document.getElementById('resultTable').addEventListener('click', function(event) {
-    var target = event.target;
-    while (target && target.nodeName !== 'TR') {
-        target = target.parentNode;
+function updateCategory(id_categoria) {
+    window.location.href = 'updateCategory.html?id_categoria=' + id_categoria;
+}
+
+function deleteCategory(id_categoria) {
+    if (confirm('¿Está seguro de que desea eliminar esta categoría?')) {
+        window.location.href = 'deleteCategory.php?id_categoria=' + id_categoria;
     }
-    if (target) {
-        var id_categoria = target.getAttribute('data-id');
-        window.location.href = 'updateCategory.html?id_categoria=' + id_categoria;
-    }
-});
+}
 </script>
