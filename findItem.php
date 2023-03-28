@@ -23,6 +23,7 @@ echo "<table id='resultTable' border='1'>
                 <th>Precio Unitario</th>
                 <th>Número de unidades</th>
                 <th>Categoría</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>";
@@ -35,6 +36,10 @@ while ($row = $result->fetch_assoc()) {
             <td>" . $row['precio_articulo'] . "</td>
             <td>" . $row['stock_articulo'] . "</td>
             <td>" . $row['id_categoria'] . "</td>
+            <td>
+                <button onclick='updateItem(" . $row['id_articulo'] . ")'>Actualizar</button>
+                <button onclick='deleteItem(" . $row['id_articulo'] . ")'>Eliminar</button>
+            </td>
           </tr>";
 }
 
@@ -45,15 +50,13 @@ $conn->close();
 ?>
 
 <script>
-// Añadir controlador de eventos para detectar clics en las filas de la tabla
-document.getElementById('resultTable').addEventListener('click', function(event) {
-    var target = event.target;
-    while (target && target.nodeName !== 'TR') {
-        target = target.parentNode;
+function updateItem(id_articulo) {
+    window.location.href = 'updateItem.html?id_articulo=' + id_articulo;
+}
+
+function deleteItem(id_articulo) {
+    if (confirm('¿Está seguro de que desea eliminar este artículo?')) {
+        window.location.href = 'deleteItem.php?id_articulo=' + id_articulo;
     }
-    if (target) {
-        var id_articulo = target.getAttribute('data-id');
-        window.location.href = 'updateItem.html?id_articulo=' + id_articulo;
-    }
-});
+}
 </script>

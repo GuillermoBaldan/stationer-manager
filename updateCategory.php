@@ -12,11 +12,11 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $nombre_categoria, $id_categoria);
 
 if ($stmt->execute()) {
-    header("Location: successPage.html"); // Redireccionar a una página de éxito
+    header("Location: mainmenu.php"); // Redireccionar a una página de éxito
 } else {
     header("Location: errorPage.html"); // Redireccionar a una página de error
 }
-
+    
 $stmt->close();
 $conn->close();
 ?>
