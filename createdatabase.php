@@ -1,17 +1,14 @@
 <?php
 
-// Configuración de la conexión a la base de datos
+// Configuración y conexión a la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "papeleria";
 
-// Crear conexión
 $conn = new mysqli($servername, $username, $password);
 
-// Verificar conexión
 if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Crear base de datos si no existe
@@ -66,9 +63,13 @@ echo "Tabla 'Usuario' creada correctamente<br>";
 echo "Error al crear la tabla 'Usuario': " . $conn->error;
 }
 
+// Generar el hash de la contraseña "superuser"
+$password = "superuser";
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
+
 // Insertar el usuario 'superuser' en la tabla 'Usuario' si no existe
 $sql = "INSERT INTO Usuario (id_usuario, nombre_usuario, correo_usuario, contraseña_usuario)
-SELECT 1, 'superuser', 'superuser@example.com', 'superuser'
+SELECT 1, 'superuser', 'superuser@example.com', '$password_hash'
 WHERE NOT EXISTS (SELECT * FROM Usuario WHERE id_usuario = 1);";
 if ($conn->query($sql) === TRUE) {
 echo "Usuario 'superuser' insertado correctamente<br>";
