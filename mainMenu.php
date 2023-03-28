@@ -25,12 +25,21 @@ if (!isset($_SESSION['username'])) {
             z-index: 9999;
         }
         .navbar span {
-            display: block;
+            display: inline-block;
             color: white;
-            text-align: right;
             padding: 14px 16px;
             text-decoration: none;
             font-size: 20px;
+        }
+        .navbar button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 14px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+            cursor: pointer;
         }
         .menu {
             margin-top: 100px;
@@ -50,17 +59,14 @@ if (!isset($_SESSION['username'])) {
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <span>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-    </div>
+    <?php include 'components/navbar.php'; ?>
     <h1>Menú</h1>
     <div class="menu">
-        <button onclick="location.href='signup.html'">Crear Usuario</button>
-        <button onclick="location.href='createItem.html'">Crear Artículo</button>
-        <button onclick="location.href='findItem.html'">Buscar Artículo</button>
-        <button onclick="location.href='createCategory.html'">Crear Categoría</button>
-        <button onclick="location.href='findCategory.html'">Buscar Categoría</button>
+        <button onclick="location.href='signup.php'">Crear Usuario</button>
+        <button onclick="location.href='createItem.php'">Crear Artículo</button>
+        <button onclick="location.href='findItem.php'">Buscar Artículo</button>
+        <button onclick="location.href='createCategory.php'">Crear Categoría</button>
+        <button onclick="location.href='findCategory.php'">Buscar Categoría</button>
     </div>
 </body>
 </html>
-
