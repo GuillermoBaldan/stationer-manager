@@ -12,7 +12,7 @@ $stmt->bind_param("i", $id_categoria);
 
 if ($stmt->execute()) {
     // Si la eliminación fue exitosa, redirigir al usuario a la página de inicio o a una página de éxito
-    header("Location: index.html");
+    header("Location: mainmenu.php");
     exit();
 } else {
     // Si hubo un error al eliminar la categoría, mostrar un mensaje de error
