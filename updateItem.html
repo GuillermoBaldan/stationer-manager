@@ -19,7 +19,7 @@
             var id_articulo = getParameterByName('id_articulo');
             if (id_articulo) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'loadItem.php?id_articulo=' + id_articulo, true);
+                xhr.open('GET', 'getItemData.php?id_articulo=' + id_articulo, true);
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         var article = JSON.parse(xhr.responseText);
@@ -46,22 +46,22 @@
         <input type="hidden" id="id_articulo" name="id_articulo">
 
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <input type="text" id="nombre" name="nombre" required placeholder="Nombre actual" onclick="this.select();">
     
         <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" required>
+        <input type="text" id="descripcion" name="descripcion" required placeholder="Descripción actual" onclick="this.select();">
         
         <label for="imagen">Imagen:</label>
         <input type="file" id="imagen" name="imagen" accept="image/*">
         
         <label for="precio_unitario">Precio unitario:</label>
-        <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" required>
+        <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" required placeholder="Precio unitario actual" onclick="this.select();">
         
         <label for="numero_unidades">Número de unidades:</label>
-        <input type="number" id="numero_unidades" name="numero_unidades" required>
+        <input type="number" id="numero_unidades" name="numero_unidades" required placeholder="Número de unidades actual" onclick="this.select();">
         
         <label for="categoria">Categoría:</label>
-        <input type="number" id="categoria" name="categoria" required>
+        <input type="number" id="categoria" name="categoria" required placeholder="ID de categoría actual" onclick="this.select();">
         
         <button type="submit">Actualizar</button>
     </form>

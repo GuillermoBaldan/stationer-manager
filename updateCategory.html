@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Categoría</title>
+    <script>
+        // ... El mismo código JavaScript de getParameterByName ...
+
+        function loadCategoryDetails() {
+            var id_categoria = getParameterByName('id_categoria');
+            if (id_categoria) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'getCategoryData.php?id_categoria=' + id_categoria, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var category = JSON.parse(xhr.responseText);
+                        document.getElementById('id_categoria').value = category.id_categoria;
+                        document.getElementById('nombre_categoria').value = category.nombre_categoria;
+                    }
+                };
+                xhr.send();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategoryDetails();
+        });
+    </script>
+</head>
+<body>
+    <h1>Actualizar Categoría</h1>
+    <form method="POST" action="updateCategory.php" enctype="multipart/form-data">
+        <input type="hidden" id="id_categoria" name="id_categoria">
+
+        <label for="nombre_categoria">Nombre de la categoría:</label>
+        <input type="text" id="nombre_categoria" name="nombre_categoria" required placeholder="Nombre actual" onclick="this.select();">
+        
+        <button type="submit">Actualizar</button>
+    </form>
+    
+</body>
+</html>
