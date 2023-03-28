@@ -1,15 +1,7 @@
 <?php
 // Conexión a la base de datos
-$servername = "your_database_host";
-$username = "your_database_user";
-$password = "your_database_password";
-$dbname = "your_database_name";
+require 'db_config.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Obtener datos del formulario
 $user = $_POST['username'];

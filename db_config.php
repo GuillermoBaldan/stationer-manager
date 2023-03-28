@@ -1,5 +1,5 @@
 <?php
-$servername = "your_database_host";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "papeleria";
