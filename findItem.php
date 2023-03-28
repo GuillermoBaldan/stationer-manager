@@ -23,6 +23,7 @@ echo "<table id='resultTable' border='1'>
                 <th>Precio Unitario</th>
                 <th>Número de unidades</th>
                 <th>Categoría</th>
+                <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -36,6 +37,7 @@ while ($row = $result->fetch_assoc()) {
             <td>" . $row['precio_articulo'] . "</td>
             <td>" . $row['stock_articulo'] . "</td>
             <td>" . $row['id_categoria'] . "</td>
+            <td><img src='" . $row['foto_articulo_url'] . "' alt='Imagen de artículo' style='max-width: 100px; max-height: 100px;'></td>
             <td>
                 <button onclick='updateItem(" . $row['id_articulo'] . ")'>Actualizar</button>
                 <button onclick='deleteItem(" . $row['id_articulo'] . ")'>Eliminar</button>
