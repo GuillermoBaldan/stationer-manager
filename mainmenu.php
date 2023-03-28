@@ -57,7 +57,8 @@ if (!isset($_SESSION['username'])) {
     <div class="menu">
         <button onclick="location.href='signup.html'">Crear Usuario</button>
         <button onclick="location.href='createItem.html'">Crear Artículo</button>
-        <button onclick="location.href='crear_categoria.html'">Crear Categoría</button>
+        <button onclick="location.href='findItem.html'">Buscar Categoría</button>
+        <button onclick="location.href='createCategory.html'">Crear Categoría</button>
         <button onclick="location.href='buscar_categoria.html'">Buscar Categoría</button>
     </div>
 </body>
