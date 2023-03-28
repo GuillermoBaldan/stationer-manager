@@ -29,7 +29,7 @@ if (!check_database($servername, $db_username, $db_password, $dbname)) {
 // Obtener los valores del formulario
 $username = $_POST["username"];
 $password = $_POST["password"];
-
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
 // Crear conexión
 $conn = new mysqli($servername, $db_username, $db_password, $dbname);
 
@@ -42,7 +42,7 @@ if ($conn->connect_error)
 // Consultar la tabla 'Usuario' para verificar si el usuario y la contraseña coinciden
 $sql = "SELECT * FROM Usuario WHERE nombre_usuario = ? AND contraseña_usuario = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $username, $password);
+$stmt->bind_param("ss", $username, $password_hash);
 $stmt->execute();
 $result = $stmt->get_result();
     
