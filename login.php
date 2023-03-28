@@ -52,6 +52,7 @@ if ($result->num_rows > 0) {
     if (password_verify($password, $user["contraseña_usuario"])) {
         // Iniciar sesión exitosamente
         echo "Bienvenido, " . $username . "!";
+        header("Location: mainmenu.php");
     } else {
         // Mostrar mensaje de error
         echo "Nombre de usuario o contraseña incorrectos.";
