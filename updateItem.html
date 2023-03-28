@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Artículo</title>
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function loadArticleDetails() {
+            var id_articulo = getParameterByName('id_articulo');
+            if (id_articulo) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'getItemData.php?id_articulo=' + id_articulo, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var article = JSON.parse(xhr.responseText);
+                        document.getElementById('id_articulo').value = article.id_articulo;
+                        document.getElementById('nombre').value = article.nombre_articulo;
+                        document.getElementById('descripcion').value = article.descripcion_articulo;
+                        document.getElementById('precio_unitario').value = article.precio_articulo;
+                        document.getElementById('numero_unidades').value = article.stock_articulo;
+                        document.getElementById('categoria').value = article.id_categoria;
+                    }
+                };
+                xhr.send();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadArticleDetails();
+        });
+    </script>
+</head>
+<body>
+    <h1>Actualizar Artículo</h1>
+    <form method="POST" action="updateItem.php" enctype="multipart/form-data">
+        <input type="hidden" id="id_articulo" name="id_articulo">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required placeholder="Nombre actual" onclick="this.select();">
+    
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required placeholder="Descripción actual" onclick="this.select();">
+        
+        <label for="imagen">Imagen:</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*">
+        
+        <label for="precio_unitario">Precio unitario:</label>
+        <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" required placeholder="Precio unitario actual" onclick="this.select();">
+        
+        <label for="numero_unidades">Número de unidades:</label>
+        <input type="number" id="numero_unidades" name="numero_unidades" required placeholder="Número de unidades actual" onclick="this.select();">
+        
+        <label for="categoria">Categoría:</label>
+        <input type="number" id="categoria" name="categoria" required placeholder="ID de categoría actual" onclick="this.select();">
+        
+        <button type="submit">Actualizar</button>
+    </form>
+    
+</body>
+</html>
