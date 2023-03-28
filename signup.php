@@ -30,7 +30,7 @@ $stmt->bind_param("sss", $user, $email, $password_hash);
 
 if ($stmt->execute()) {
     echo "Usuario registrado exitosamente.";
-    header("Location: mainmenu.html");
+    header("Location: mainmenu.php");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

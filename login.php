@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Configuración de la conexión a la base de datos
 $servername = "localhost";
 $db_username = "root";
@@ -39,7 +41,6 @@ if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
 
-
 // Consultar la tabla 'Usuario' para verificar si el usuario existe
 $sql = "SELECT * FROM Usuario WHERE nombre_usuario = ?";
 $stmt = $conn->prepare($sql);
@@ -51,7 +52,7 @@ if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     if (password_verify($password, $user["contraseña_usuario"])) {
         // Iniciar sesión exitosamente
-        echo "Bienvenido, " . $username . "!";
+        $_SESSION["username"] = $username;
         header("Location: mainmenu.php");
     } else {
         // Mostrar mensaje de error

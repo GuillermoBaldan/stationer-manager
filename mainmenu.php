@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -55,8 +55,8 @@ if (!isset($_SESSION['username'])) {
     </div>
     <h1>Menú</h1>
     <div class="menu">
-        <button onclick="location.href='crear_usuario.html'">Crear Usuario</button>
-        <button onclick="location.href='crear_articulo.html'">Crear Artículo</button>
+        <button onclick="location.href='signup.html'">Crear Usuario</button>
+        <button onclick="location.href='createItem.html'">Crear Artículo</button>
         <button onclick="location.href='crear_categoria.html'">Crear Categoría</button>
         <button onclick="location.href='buscar_categoria.html'">Buscar Categoría</button>
     </div>

@@ -52,7 +52,7 @@ echo "Error al crear la tabla 'Articulo': " . $conn->error;
 
 // Crear tabla Usuario si no existe
 $sql = "CREATE TABLE IF NOT EXISTS Usuario (
-id_usuario INT PRIMARY KEY,
+id_usuario INT(11) AUTO_INCREMENT PRIMARY KEY,
 nombre_usuario VARCHAR(50),
 correo_usuario VARCHAR(50),
 contraseña_usuario VARCHAR(255)
