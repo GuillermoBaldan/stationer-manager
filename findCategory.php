@@ -45,16 +45,17 @@ if ($palabra_busqueda != '') {
                 </thead>
                 <tbody>";
 
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr data-id='" . $row['id_categoria'] . "'>
-                    <td>" . $row['id_categoria'] . "</td>
-                    <td>" . $row['nombre_categoria'] . "</td>
-                    <td>
-                        <button onclick='updateCategory(" . $row['id_categoria'] . ")'>Actualizar</button>
-                        <button onclick='deleteCategory(" . $row['id_categoria'] . ")'>Eliminar</button>
-                    </td>
-                  </tr>";
-        }
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr data-id='" . $row['id_categoria'] . "' onclick='showArticulos(" . $row['id_categoria'] . ")'>
+                            <td>" . $row['id_categoria'] . "</td>
+                            <td>" . $row['nombre_categoria'] . "</td>
+                            <td>
+                                <button onclick='event.stopPropagation(); updateCategory(" . $row['id_categoria'] . ")'>Actualizar</button>
+                                <button onclick='event.stopPropagation(); deleteCategory(" . $row['id_categoria'] . ")'>Eliminar</button>
+                            </td>
+                          </tr>";
+                }
+                
 
         echo "</tbody></table>";
     } else {
@@ -62,22 +63,88 @@ if ($palabra_busqueda != '') {
     }
 }
 
-echo "</body>
-</html>";
-include 'components/mainMenuButton.php';
-
-$stmt->close();
-$conn->close();
-?>
-
-<script>
+echo "<script>
 function updateCategory(id_categoria) {
     window.location.href = 'updateCategory.html?id_categoria=' + id_categoria;
 }
 
 function deleteCategory(id_categoria) {
     if (confirm('¿Está seguro de que desea eliminar esta categoría?')) {
-        window.location.href = 'deleteCategory.php?id_categoria=' + id_categoria;
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'deleteCategory.php?id_categoria=' + id_categoria, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                try {
+                    let response = JSON.parse(xhr.responseText);
+                    if (response.error) {
+                        alert(response.error);
+                        showArticulosRelacionados(response.articulos);
+                    } else {
+                        alert('La categoría se eliminó con éxito.');
+                        location.reload();
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+        };
+        xhr.send();
     }
 }
+
+function showArticulosRelacionados(articulos) {
+    let table = document.createElement('table');
+    table.border = '1';
+    table.innerHTML = '<thead><tr><th>ID Artículo</th><th>Nombre Artículo</th><th>Descripción</th><th>Precio</th></tr></thead><tbody></tbody>';
+    let tbody = table.querySelector('tbody');
+    let example = 'hola';
+    for (let i = 0; i < articulos.length; i++) {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `<td>` + '$' + `{example}</td>`;
+        tr.innerHTML = `<td>` + '$' `{articulos[i].id_articulo}</td><td>`+ '$' + `{articulos[i].nombre_articulo}</td><td>`+'$'+`{articulos[i].descripcion}</td><td>` + '$' + `{articulos[i].precio}</td>`;
+        tbody.appendChild(tr);
+    }
+    let container = document.createElement('div');
+    container.innerHTML = `
+        <h2>Artículos relacionados</h2>
+        <p>Por favor, elimine los siguientes artículos antes de eliminar la categoría:</p>
+    `;
+    container.appendChild(table);
+
+    let resultTable = document.getElementById('resultTable');
+    if (resultTable) {
+        resultTable.parentNode.insertBefore(container, resultTable.nextSibling);
+    } else {
+        document.body.appendChild(container);
+    }
+}
+
+function showArticulos(id_categoria) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'getItemsByCategory.php?id_categoria=' + id_categoria, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                let response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    alert(response.error);
+                } else {
+                    showArticulosRelacionados(response.articulos);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    };
+    xhr.send();
+}
 </script>
+";
+    
+    echo "</body>
+    
+    </html>";
+    include 'components/mainMenuButton.php';
+    $stmt->close();
+    $conn->close();
+    ?>
