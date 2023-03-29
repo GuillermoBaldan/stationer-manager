@@ -1,0 +1,1 @@
+When you running this web application for first time, you must use the name "superuser" and its password is "superuser". Also is possible to signup with a different user.
