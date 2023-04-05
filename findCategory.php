@@ -21,6 +21,23 @@ echo "<!DOCTYPE html>
 </head>
 <body>";
 include 'components/navbar.php';
+echo "<script>
+function showArticulosByCategory(id_categoria) {
+    fetch(`getItemsByCategory.php?id_categoria=` + id_categoria)
+        .then(response => response.json())
+        .then(data => {
+            if (data.articulos.length > 0) {
+                console.log('Artículos en la categoría:', data.articulos);
+            } else {
+                console.log('No hay artículos en esta categoría.');
+                console.log(data);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+</script>
+";
 echo "
     <h1>Buscar Categorías</h1>
     <form method='POST' action='findCategory.php'>
@@ -55,23 +72,7 @@ if ($palabra_busqueda != '') {
         echo "<p>No se encontraron resultados para la búsqueda.</p>";
     }
 }
-echo "<script>
-function showArticulosByCategory(id_categoria) {
-    fetch(`getItemsByCategory.php?id_categoria=` + id_categoria)
-        .then(response => response.json())
-        .then(data => {
-            if (data.articulos.length > 0) {
-                console.log('Artículos en la categoría:', data.articulos);
-            } else {
-                console.log('No hay artículos en esta categoría.');
-                console.log(data);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
 
-</script>
-";
 
     echo "</body>
 
